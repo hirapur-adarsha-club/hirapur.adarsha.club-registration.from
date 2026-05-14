@@ -121,6 +121,11 @@
             .entry-fee { position: static; margin-top: 10px; }
             .submit-btn { width: 100%; margin-left: 0; }
         }
+        #paymentPreview {
+    max-height: 200px;
+    object-fit: contain;
+    border: 2px solid #ddd;
+}
     </style>
 </head>
 <body>
@@ -295,6 +300,15 @@
         document.body.removeChild(tempInput);
         alert("নম্বরটি কপি হয়েছে: " + text);
     }
+    function previewPayment(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('paymentPreview');
+        output.src = reader.result;
+        output.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 </script>
 </body>
 </html>
