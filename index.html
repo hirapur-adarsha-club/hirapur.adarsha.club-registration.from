@@ -157,14 +157,13 @@
                 <img id="logoPreview" class="preview-img">
                 <input type="file" id="teamLogo" accept="image/*" required onchange="previewFile(this, 'logoPreview')">
             </div>
-            <div class="upload-box">
-                <div class="payment-info">বিকাশ পার্সোনাল: <b>০১৭৭৭৭ ৩৭ ৩৭৭</b> <button type="button" class="copy-btn" onclick="copyNumber()">Copy</button></div>
-                <i class="fas fa-file-invoice-dollar" style="margin-top: 10px;"></i>
-                <p>৪. পেমেন্ট ও স্ক্রিনশট</p>
-                <span>স্ক্রিনশট আপলোড বা ট্রানজিশন আইডি দিন</span>
-                <img id="paymentPreview" class="preview-img">
-                <input type="file" id="paymentSnap" accept="image/*" required onchange="previewFile(this, 'paymentPreview')">
-            </div>
+           <div class="upload-box" id="paymentBox">
+    <i class="fas fa-file-invoice-dollar"></i>
+    <p>বিকাশ পার্সোনাল: <span id="bkashNumber">০১৭৯৭৭৩৭৩৭৭</span> 
+       <button type="button" onclick="copyNumber()" class="copy-btn">Copy</button>
+    </p>
+    <p>৪. পেমেন্ট ও স্ক্রিনশট</p>
+    </div>
         </div>
 
         <div class="grid">
@@ -269,6 +268,30 @@
             btn.disabled = false;
         }
     };
+    // Copy function code eikhane boshao
+    window.copyNumber = function() {
+        const numberText = "০১৭৯৭৭৩৭৩৭৭"; // Tumar Bikash number
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(numberText).then(() => {
+                alert("নম্বরটি কপি হয়েছে: " + numberText);
+            }).catch(err => {
+                fallbackCopy(numberText);
+            });
+        } else {
+            fallbackCopy(numberText);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const tempInput = document.createElement("input");
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("নম্বরটি কপি হয়েছে: " + text);
+    }
 </script>
 </body>
 </html>
