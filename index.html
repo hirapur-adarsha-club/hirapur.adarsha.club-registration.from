@@ -158,7 +158,7 @@
                 <input type="file" id="teamLogo" accept="image/*" required onchange="previewFile(this, 'logoPreview')">
             </div>
             <div class="upload-box">
-                <div class="payment-info">বিকাশ পার্সোনাল: <b>01778893276</b> </div>
+                <div class="payment-info">বিকাশ পার্সোনাল: <b01778893276</b> </div>
                 <i class="fas fa-file-invoice-dollar" style="margin-top: 10px;"></i>
                 <p>৪. পেমেন্ট ও স্ক্রিনশট</p>
                 <span>স্ক্রিনশট আপলোড বা ট্রানজিশন আইডি দিন</span>
@@ -226,7 +226,33 @@
         }
     }
 
+    window.copyNumber = function() {
+    const numberToCopy = "01777737377";
+    
+    // মডার্ন ব্রাউজার পদ্ধতি
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(numberToCopy).then(() => {
+            alert("নাম্বারটি কপি করা হয়েছে: " + numberToCopy);
+        }).catch(err => {
+            // যদি মডার্ন পদ্ধতি ফেইল করে তবে বিকল্প পদ্ধতি
+            fallbackCopy(numberToCopy);
+        });
+    } else {
+        // যদি ব্রাউজার মডার্ন পদ্ধতি সাপোর্ট না করে
+        fallbackCopy(numberToCopy);
+    }
+}
+
+// বিকল্প কপি পদ্ধতি (সব ডিভাইসে কাজ করবে)
+function fallbackCopy(text) {
+    const tempInput = document.createElement("input");
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // মোবাইল সাপোর্ট এর জন্য
+    
    
+    
     document.body.removeChild(tempInput);
 }
 
