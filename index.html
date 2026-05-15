@@ -227,9 +227,39 @@
     }
 
     window.copyNumber = function() {
-        navigator.clipboard.writeText("01777737377");
-        alert("নাম্বারটি কপি করা হয়েছে!");
+    const numberToCopy = "01777737377";
+    
+    // মডার্ন ব্রাউজার পদ্ধতি
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(numberToCopy).then(() => {
+            alert("নাম্বারটি কপি করা হয়েছে: " + numberToCopy);
+        }).catch(err => {
+            // যদি মডার্ন পদ্ধতি ফেইল করে তবে বিকল্প পদ্ধতি
+            fallbackCopy(numberToCopy);
+        });
+    } else {
+        // যদি ব্রাউজার মডার্ন পদ্ধতি সাপোর্ট না করে
+        fallbackCopy(numberToCopy);
     }
+}
+
+// বিকল্প কপি পদ্ধতি (সব ডিভাইসে কাজ করবে)
+function fallbackCopy(text) {
+    const tempInput = document.createElement("input");
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // মোবাইল সাপোর্ট এর জন্য
+    
+    try {
+        document.execCommand("copy");
+        alert("নাম্বারটি কপি করা হয়েছে: " + text);
+    } catch (err) {
+        alert("কপি করা সম্ভব হয়নি, দয়া করে লিখে নিন।");
+    }
+    
+    document.body.removeChild(tempInput);
+}
 
     async function uploadImage(file) {
         const formData = new FormData();
