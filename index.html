@@ -195,8 +195,7 @@
         <div style="font-size: 11px; color: #888;">@NAYEM KHONDOKAR</div>
     </div>
 </div>
-
-<script type="module">
+    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -213,53 +212,37 @@
     const db = getFirestore(app);
     const imgbbKey = "57a765cdd4134c205edb5710071a8432";
 
+    // বাটন যেন খুঁজে পায় তাই window-তে ডিক্লেয়ার করা হলো
+    window.copyNumber = function() {
+        const num = "01777737377";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(num).then(() => {
+                alert("নাম্বারটি কপি করা হয়েছে: " + num);
+            }).catch(() => fallbackCopy(num));
+        } else {
+            fallbackCopy(num);
+        }
+    };
+
+    function fallbackCopy(text) {
+        const input = document.createElement("input");
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        alert("নাম্বারটি কপি করা হয়েছে: " + text);
+    }
+
     window.previewFile = function(input, previewId) {
         const file = input.files[0];
         const preview = document.getElementById(previewId);
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
+            reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; }
             reader.readAsDataURL(file);
         }
-    }
-
-    window.copyNumber = function() {
-    const numberToCopy = "01777737377";
-    
-    // মডার্ন ব্রাউজার পদ্ধতি
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(numberToCopy).then(() => {
-            alert("নাম্বারটি কপি করা হয়েছে: " + numberToCopy);
-        }).catch(err => {
-            // যদি মডার্ন পদ্ধতি ফেইল করে তবে বিকল্প পদ্ধতি
-            fallbackCopy(numberToCopy);
-        });
-    } else {
-        // যদি ব্রাউজার মডার্ন পদ্ধতি সাপোর্ট না করে
-        fallbackCopy(numberToCopy);
-    }
-}
-
-// বিকল্প কপি পদ্ধতি (সব ডিভাইসে কাজ করবে)
-function fallbackCopy(text) {
-    const tempInput = document.createElement("input");
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    tempInput.setSelectionRange(0, 99999); // মোবাইল সাপোর্ট এর জন্য
-    
-    try {
-        document.execCommand("copy");
-        alert("নাম্বারটি কপি করা হয়েছে: " + text);
-    } catch (err) {
-        alert("কপি করা সম্ভব হয়নি, দয়া করে লিখে নিন।");
-    }
-    
-    document.body.removeChild(tempInput);
-}
+    };
 
     async function uploadImage(file) {
         const formData = new FormData();
@@ -300,5 +283,6 @@ function fallbackCopy(text) {
         }
     };
 </script>
-</body>
-</html>
+
+
+          
